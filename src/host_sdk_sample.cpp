@@ -88,7 +88,7 @@ static std::shared_ptr<rawCloudRender> g_renderer = nullptr;
 std::string calib_file_ = "";
 static std::shared_ptr<odin_ros_driver::YamlParser> g_parser = nullptr;
 
-static constexpr size_t PTP_SMOOTH_WINDOW_SIZE = 30;
+static constexpr size_t PTP_SMOOTH_WINDOW_SIZE = 300;
 static std::mutex g_ptp_mutex;
 static std::deque<double> g_ptp_delay_buf;
 static std::deque<double> g_ptp_offset_buf;
