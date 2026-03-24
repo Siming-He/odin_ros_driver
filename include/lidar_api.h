@@ -244,6 +244,18 @@ int lidar_get_custom_parameter(device_handle device, const char* param_name, int
  */
  int lidar_get_mapping_result(device_handle device, const char* dest_dir, const char* file_name);
 
+/**
+ * @brief Set the image mask file for the device
+ *
+ * Read & send specified image mask file to device
+ *
+ * @param device Handle to the target device
+ * @param abs_path Absolute path to the image mask file (e.g., mask.png)
+ * @return int 0 on success, -1 on failure, -2 if file transfer in progress
+ */
+ int lidar_set_image_mask(device_handle device, const char* abs_path);
+
+
   /**
  * @brief enable device log
  *

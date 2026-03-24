@@ -147,6 +147,11 @@ std::string g_relocalization_map_abs_path = "";
 std::string g_mapping_result_dest_dir = "";
 std::string g_mapping_result_file_name = "";
 
+int g_send_image_mask = 0;
+std::string g_image_mask_abs_path = "";
+
+int g_reset_algo = 0;
+
 const char* DEV_STATUS_CSV_FILE = "dev_status.csv";
 FILE* dev_status_csv_file = nullptr;
 
@@ -1573,6 +1578,51 @@ static void lidar_device_callback(const lidar_device_info_t* device, bool attach
                 return;
             }
         }
+
+        // Transfer image mask if enabled
+        if (g_send_image_mask == 1) {
+            if (g_image_mask_abs_path != "" && std::filesystem::exists(g_image_mask_abs_path)) {
+                int ret = lidar_set_image_mask(odinDevice, g_image_mask_abs_path.c_str());
+                if (ret == 0) {
+                    #ifdef ROS2
+                        RCLCPP_INFO(rclcpp::get_logger("device_cb"), "Image mask set successfully: %s", g_image_mask_abs_path.c_str());
+                    #else
+                        ROS_INFO("Image mask set successfully: %s", g_image_mask_abs_path.c_str());
+                    #endif
+                } else {
+                    #ifdef ROS2
+                        RCLCPP_ERROR(rclcpp::get_logger("device_cb"), "Failed to set image mask: %s, error: %d", g_image_mask_abs_path.c_str(), ret);
+                    #else
+                        ROS_ERROR("Failed to set image mask: %s, error: %d", g_image_mask_abs_path.c_str(), ret);
+                    #endif
+                }
+            } else {
+                #ifdef ROS2
+                    RCLCPP_WARN(rclcpp::get_logger("device_cb"), "Image mask path not set or file not found: %s", g_image_mask_abs_path.c_str());
+                #else
+                    ROS_WARN("Image mask path not set or file not found: %s", g_image_mask_abs_path.c_str());
+                #endif
+            }
+        }
+
+        // Send algo_reset command if enabled
+        if (g_reset_algo == 1) {
+            int reset_value = 1;
+            int ret = lidar_set_custom_parameter(odinDevice, "algo_reset", &reset_value, sizeof(int));
+            if (ret == 0) {
+                #ifdef ROS2
+                    RCLCPP_INFO(rclcpp::get_logger("device_cb"), "Algo reset command sent successfully");
+                #else
+                    ROS_INFO("Algo reset command sent successfully");
+                #endif
+            } else {
+                #ifdef ROS2
+                    RCLCPP_ERROR(rclcpp::get_logger("device_cb"), "Failed to send algo reset command, error: %d", ret);
+                #else
+                    ROS_ERROR("Failed to send algo reset command, error: %d", ret);
+                #endif
+            }
+        }
  
         lidar_data_callback_info_t data_callback_info;
         data_callback_info.data_callback = lidar_data_callback;
@@ -1811,7 +1861,10 @@ int main(int argc, char *argv[])
         g_relocalization_map_abs_path = get_key_str_value("relocalization_map_abs_path", "");
         g_mapping_result_dest_dir = get_key_str_value("mapping_result_dest_dir", "");
         g_mapping_result_file_name = get_key_str_value("mapping_result_file_name", "");
+        g_image_mask_abs_path = get_key_str_value("image_mask_abs_path", "");
 
+        g_send_image_mask = get_key_value("sendimagemask", 0);
+        g_reset_algo = get_key_value("resetalgo", 0);
         g_custom_map_mode = g_parser->getCustomMapMode(2);
 
         lidar_log_set_level(LIDAR_LOG_INFO);
