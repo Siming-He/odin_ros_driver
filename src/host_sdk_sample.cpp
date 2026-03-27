@@ -113,7 +113,7 @@ double get_ptp_smoothed_offset() {
 
  // usb device
 static std::string TARGET_VENDOR = "2207";
-static std::string TARGET_PRODUCT = "0019";
+static std::string TARGET_PRODUCT = "001a";
 // Global configuration variables
 int g_sendrgb = 1;
 int g_sendimu = 1;
@@ -1126,6 +1126,9 @@ static void lidar_data_callback(const lidar_data_t *data, void *user_data)
             break;
             case LIDAR_DT_SLAM_WIWC:
             {
+                // Always publish WIWC data for real-time extrinsics
+                g_ros_object->publishWiwc((capture_Image_List_t *)&data->stream);
+                
                 if(g_record_data ) {
                     g_ros_object->recordrotate((capture_Image_List_t *)&data->stream);
                 }
