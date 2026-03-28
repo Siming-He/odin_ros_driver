@@ -176,7 +176,7 @@ void CloudReprojectionRosNode::syncCallback(
 {
     // Debug: print that syncCallback is called
     static int sync_count = 0;
-    RCLCPP_INFO(this->get_logger(), "=== syncCallback called, count: %d ===", ++sync_count);
+    // RCLCPP_INFO(this->get_logger(), "=== syncCallback called, count: %d ===", ++sync_count);
     
     pcl::PointCloud<pcl::PointXYZRGB> cloud_odom;
     pcl::fromROSMsg(*cloud_msg, cloud_odom);
@@ -200,27 +200,27 @@ void CloudReprojectionRosNode::syncCallback(
     bool T_CL_valid = (T_CL - Eigen::Matrix4d::Identity()).norm() > 1e-6;
     bool T_IL_valid = (T_IL - Eigen::Matrix4d::Identity()).norm() > 1e-6;
     
-    // Debug print to compare with host_sdk_sample values
-    static int print_count = 0;
-    if (print_count++) {
-        // Extract rotation (3x3) and translation (3x1) from T_CL
-        Eigen::Matrix3d RCL = T_CL.block<3,3>(0,0);
-        Eigen::Vector3d TCL = T_CL.block<3,1>(0,3);
-        RCLCPP_INFO_STREAM(this->get_logger(), "=== cloud_reprojection RCL (3x3 rotation from T_CL) ===\n" << RCL);
-        RCLCPP_INFO_STREAM(this->get_logger(), "=== cloud_reprojection TCL (3x1 translation from T_CL) ===\n" << TCL.transpose());
+    // // Debug print to compare with host_sdk_sample values
+    // static int print_count = 0;
+    // if (print_count++) {
+    //     // Extract rotation (3x3) and translation (3x1) from T_CL
+    //     Eigen::Matrix3d RCL = T_CL.block<3,3>(0,0);
+    //     Eigen::Vector3d TCL = T_CL.block<3,1>(0,3);
+    //     RCLCPP_INFO_STREAM(this->get_logger(), "=== cloud_reprojection RCL (3x3 rotation from T_CL) ===\n" << RCL);
+    //     RCLCPP_INFO_STREAM(this->get_logger(), "=== cloud_reprojection TCL (3x1 translation from T_CL) ===\n" << TCL.transpose());
         
-        // Extract rotation (3x3) and translation (3x1) from T_IL
-        Eigen::Matrix3d RIL = T_IL.block<3,3>(0,0);
-        Eigen::Vector3d TIL = T_IL.block<3,1>(0,3);
-        RCLCPP_INFO_STREAM(this->get_logger(), "=== cloud_reprojection RIL (3x3 rotation from T_IL) ===\n" << RIL);
-        RCLCPP_INFO_STREAM(this->get_logger(), "=== cloud_reprojection TIL (3x1 translation from T_IL) ===\n" << TIL.transpose());
+    //     // Extract rotation (3x3) and translation (3x1) from T_IL
+    //     Eigen::Matrix3d RIL = T_IL.block<3,3>(0,0);
+    //     Eigen::Vector3d TIL = T_IL.block<3,1>(0,3);
+    //     RCLCPP_INFO_STREAM(this->get_logger(), "=== cloud_reprojection RIL (3x3 rotation from T_IL) ===\n" << RIL);
+    //     RCLCPP_INFO_STREAM(this->get_logger(), "=== cloud_reprojection TIL (3x1 translation from T_IL) ===\n" << TIL.transpose());
         
-        RCLCPP_INFO(this->get_logger(), "T_CL_valid: %d, T_IL_valid: %d", T_CL_valid, T_IL_valid);
-        if (T_CL_valid && T_IL_valid) {
-            Eigen::Matrix4d Tic = CloudReprojector::calculateTic(T_CL, T_IL);
-            RCLCPP_INFO_STREAM(this->get_logger(), "=== cloud_reprojection calculated Tic ===\n" << Tic);
-        }
-    }
+    //     RCLCPP_INFO(this->get_logger(), "T_CL_valid: %d, T_IL_valid: %d", T_CL_valid, T_IL_valid);
+    //     if (T_CL_valid && T_IL_valid) {
+    //         Eigen::Matrix4d Tic = CloudReprojector::calculateTic(T_CL, T_IL);
+    //         RCLCPP_INFO_STREAM(this->get_logger(), "=== cloud_reprojection calculated Tic ===\n" << Tic);
+    //     }
+    // }
     
     if (T_CL_valid && T_IL_valid) {
         reprojector_->updateExtrinsics(T_CL, T_IL);

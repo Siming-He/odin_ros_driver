@@ -63,7 +63,15 @@ register_keys:
 
   # cloud reprojection demo, projects cloud_slam to camera image using odometry
   # Processed on host device
-  sendreprojection: 1    # 0: off; 1: on
+  sendreprojection: 0    # 0: off; 1: on
+
+  # image overlay settings - overlays reprojected points on camera image
+  # Processed on host device
+  sendoverlay: 0                                    # 0: off; 1: on
+  overlay_reprojected_topic: "/odin1/reprojected_image"  # reprojected image topic
+  overlay_camera_topic: "/odin1/image/undistorted"       # camera image topic (undistorted)
+  overlay_output_topic: "/odin1/overlay_image"           # output overlay image topic
+  overlay_alpha: 0.6                                     # blend alpha (0.0-1.0, higher = more reproj color)
 
   # record rgb, odometry, and slam cloud data as proprietary olx format for further processing in MindCloud(TM) software. 
   # save path: ws/src/odin_ros_driver/recorddata/{record_start_time}/

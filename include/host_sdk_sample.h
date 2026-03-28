@@ -1031,13 +1031,13 @@ void publishRgb(capture_Image_List_t *stream) {
                 T_IL(3, 0) = 0.0; T_IL(3, 1) = 0.0; T_IL(3, 2) = 0.0; T_IL(3, 3) = 1.0;
                 
                 // Debug print to compare with cloud_reprojection values
-                static int host_print_count = 0;
-                if (host_print_count++) {
-                    std::cout << "=== host_sdk_sample T_CL from odom_data->pose_cov ===" << std::endl;
-                    std::cout << T_CL << std::endl;
-                    std::cout << "=== host_sdk_sample T_IL from odom_data->twist_cov ===" << std::endl;
-                    std::cout << T_IL << std::endl;
-                }
+                // static int host_print_count = 0;
+                // if (host_print_count++) {
+                //     std::cout << "=== host_sdk_sample T_CL from odom_data->pose_cov ===" << std::endl;
+                //     std::cout << T_CL << std::endl;
+                //     std::cout << "=== host_sdk_sample T_IL from odom_data->twist_cov ===" << std::endl;
+                //     std::cout << T_IL << std::endl;
+                // }
                 
                 // Extract rotation and translation from T_CL
                 Eigen::Matrix3d RCL = T_CL.block<3, 3>(0, 0);
@@ -1048,17 +1048,17 @@ void publishRgb(capture_Image_List_t *stream) {
                 Eigen::Vector3d TIL = T_IL.block<3, 1>(0, 3);
 
                 // Debug print extracted RCL and TCL
-                static int rcl_print_count = 0;
-                if (rcl_print_count++ ) {
-                    std::cout << "=== host_sdk_sample RCL (3x3 rotation from T_CL) ===" << std::endl;
-                    std::cout << RCL << std::endl;
-                    std::cout << "=== host_sdk_sample TCL (3x1 translation from T_CL) ===" << std::endl;
-                    std::cout << TCL.transpose() << std::endl;
-                    std::cout << "=== host_sdk_sample RIL (3x3 rotation from T_IL) ===" << std::endl;
-                    std::cout << RIL << std::endl;
-                    std::cout << "=== host_sdk_sample TIL (3x1 translation from T_IL) ===" << std::endl;
-                    std::cout << TIL.transpose() << std::endl;
-                }
+                // static int rcl_print_count = 0;
+                // if (rcl_print_count++ ) {
+                //     std::cout << "=== host_sdk_sample RCL (3x3 rotation from T_CL) ===" << std::endl;
+                //     std::cout << RCL << std::endl;
+                //     std::cout << "=== host_sdk_sample TCL (3x1 translation from T_CL) ===" << std::endl;
+                //     std::cout << TCL.transpose() << std::endl;
+                //     std::cout << "=== host_sdk_sample RIL (3x3 rotation from T_IL) ===" << std::endl;
+                //     std::cout << RIL << std::endl;
+                //     std::cout << "=== host_sdk_sample TIL (3x1 translation from T_IL) ===" << std::endl;
+                //     std::cout << TIL.transpose() << std::endl;
+                // }
                 
                 // Save RIL, TIL, RCL, TCL to YAML file
                 static int save_count = 0;
