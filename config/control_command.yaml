@@ -20,7 +20,7 @@ register_keys:
   # undistort rgb image processed from decoded rgb data.
   # depends on sendrgb. related camera parameters can be found in ws/src/odin_ros_driver/config/calib.yaml
   # Processed on host device
-  sendrgbundistort: 0     # 0: off; 1: on.
+  sendrgbundistort: 0    # 0: off; 1: on.
 
   # IMU data
   sendimu: 1              # 0: off; 1: on
@@ -99,7 +99,7 @@ register_keys:
 
   # Image mask transfer settings
   sendimagemask: 0        # 0: off; 1: on - transfer image mask to device on startup
-  image_mask_abs_path: "" # absolute path to the image mask file (e.g., /path/to/mask.png)
+  image_mask_abs_path: "" # absolute path to the image mask file (e.g., /path/to/mask.png(1600x1296 resolution)
 
   # Algorithm reset settings
   resetalgo: 0            # 0: off; 1: on - send algo_reset command to device on startup
