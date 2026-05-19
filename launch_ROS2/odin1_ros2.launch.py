@@ -89,11 +89,11 @@ def generate_launch_description():
     # Create launch description
     ld = LaunchDescription()
     ld.add_action(config_file_arg)
-    ld.add_action(rviz_config_arg)  # Add RViz configuration argument
+    # ld.add_action(rviz_config_arg)  # Add RViz configuration argument
     ld.add_action(host_sdk_node)
     ld.add_action(pcd2depth_node)
     ld.add_action(cloud_reprojection_node)
     ld.add_action(image_overlay_node)
-    ld.add_action(rviz_node)  # Add RViz node
+    # ld.add_action(rviz_node)  # Add RViz node
     
     return ld
