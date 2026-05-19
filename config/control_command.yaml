@@ -1,7 +1,7 @@
 register_keys:
   # if off, allow connection even if usb connection is below usb 3.0
   # ATTENTION: usb 3.0 is always recommended, as advance functionality like SLAM mode requires usb 3.0 for reliable map file transfer
-  strict_usb3.0_check: 0  # 0: off: 1: on;
+  strict_usb3.0_check: 1  # 0: off: 1: on;
 
   # 0: use odin internal system time as data time stamp, typical and recommended;
   # 1: use host ros time (upon receive) as data time stamp, only use if you specifically require this setup, not recommended for most users
@@ -20,7 +20,7 @@ register_keys:
   # undistort rgb image processed from decoded rgb data.
   # depends on sendrgb. related camera parameters can be found in ws/src/odin_ros_driver/config/calib.yaml
   # Processed on host device
-  sendrgbundistort: 0    # 0: off; 1: on.
+  sendrgbundistort: 1    # 0: off; 1: on.
 
   # IMU data
   sendimu: 1              # 0: off; 1: on
@@ -59,11 +59,11 @@ register_keys:
   # depth completion demo, high computing resource usage. 
   # for more information please refer to the readme file.
   # Processed on host device
-  senddepth: 0            # 0: off; 1: on
+  senddepth: 1            # 0: off; 1: on
 
   # cloud reprojection demo, projects cloud_slam to camera image using odometry
   # Processed on host device
-  sendreprojection: 0    # 0: off; 1: on
+  sendreprojection: 1    # 0: off; 1: on
 
   # image overlay settings - overlays reprojected points on camera image
   # Processed on host device
@@ -89,7 +89,7 @@ register_keys:
   showpath: 0             # 0: off; 1: on
   showcamerapose: 0       # 0: off; 1: on
   
-  custom_map_mode: 0      # 0: Odometry mode 1: SLAM mode 2: Relocalization mode
+  custom_map_mode: 1      # 0: Odometry mode 1: SLAM mode 2: Relocalization mode
   custom_init_pos: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
   relocalization_map_abs_path: "" # must be set for Relocalization mode or will fail
 
